@@ -1,11 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-export class Button extends Component {
-  render() {
-    return (
-      <button className="btn waves-effect waves-light" type="submit" name="action">
-        {this.props.label}
-      </button>
-    )
-  }
-}
+export const Button = props => {
+  return (
+    <button className="btn waves-effect waves-light" type="submit" name="action" onClick={() => props.onClick(props.label)}>
+      {props.label}
+    </button>
+  )
+};

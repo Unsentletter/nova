@@ -32,7 +32,7 @@ class App extends Component {
     axios.get(url).then(res => {
       console.log("APP", res);
       this.setState({
-        weather: res.data.hourly
+        weather: res.data.daily
       })
     }, (err) => {
       console.log(err)
@@ -49,24 +49,35 @@ class App extends Component {
       reorderedWeekdays.push(weekdays[pointer])
     }
 
+    const currentDay = reorderedWeekdays[0];
+    reorderedWeekdays.shift();
+    console.log(reorderedWeekdays)
 
-
-    return reorderedWeekdays
-  }
+    return {
+      currentDay,
+      reorderedWeekdays
+    }
+  };
 
   onInputChange = event => {
     this.setState({ term: event.target.value })
   };
 
   render() {
-    console.log(this.orderDays())
+    console.log(this.state.weather)
     return (
       <div>
         <SearchBar onFormSubmit={this.onFormSubmit} onInputChange={this.onInputChange}/>
         <MainDisplay data={this.state}/>
-        {this.orderDays().map((day, i) => {
-          return <SubDisplay key={i} day={day}/>
-        })}
+        <div className='ordered-days'>
+          {this.orderDays().reorderedWeekdays.map((day, i) => {
+            return (
+              <div className='day' key={i} >
+                <SubDisplay day={day} weather={this.state.weather}/>
+              </div>
+            )
+          })}
+        </div>
       </div>
     );
   }
